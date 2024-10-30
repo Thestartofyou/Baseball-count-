@@ -1,0 +1,42 @@
+def update_count(pitch, balls=0, strikes=0):
+    """
+    Updates the pitch count based on the pitch result.
+    
+    Args:
+    pitch (str): Either 'ball' or 'strike'.
+    balls (int): Current count of balls.
+    strikes (int): Current count of strikes.
+    
+    Returns:
+    (str): Updated count or result message.
+    """
+    # Validate input
+    if pitch not in ["ball", "strike"]:
+        return "Invalid input. Please enter 'ball' or 'strike'."
+    
+    # Update the count based on the pitch type
+    if pitch == "ball":
+        balls += 1
+        if balls == 4:
+            return "Walk! The batter gets a free base."
+    elif pitch == "strike":
+        strikes += 1
+        if strikes == 3:
+            return "Strikeout! The batter is out."
+    
+    return f"Count: {balls} balls, {strikes} strikes."
+
+# Example Usage
+balls, strikes = 0, 0
+
+while True:
+    pitch = input("Enter pitch result ('ball' or 'strike'): ").strip().lower()
+    result = update_count(pitch, balls, strikes)
+    print(result)
+    
+    # Update ball and strike counts for next pitch if game continues
+    if "Walk" in result or "Strikeout" in result:
+        break
+    else:
+        # Extract counts from the result for the next loop iteration
+        balls, strikes = map(int, result.split()[1::3])
